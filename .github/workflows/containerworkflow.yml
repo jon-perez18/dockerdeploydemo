@@ -11,8 +11,11 @@ jobs:
   call-trufflehog-scan:
     uses: ./.github/workflows/scanning.yml
 
+  call-semgrep-scan:
+    uses: ./.github/workflows/semgrep.yml
+
   build-deploy-image:
-      needs: call-trufflehog-scan
+      needs: [call-trufflehog-scan, call-semgrep-scan]
       runs-on: ubuntu-latest
       
       steps:
