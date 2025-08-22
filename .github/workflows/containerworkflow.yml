@@ -5,6 +5,7 @@ on:
 env:
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/webapp:${{ github.sha }}
+  SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
 jobs:
 
@@ -15,7 +16,7 @@ jobs:
     needs: call-trufflehog-scan
     uses: ./.github/workflows/semgrep.yml
     with:
-      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      SEMGREP_APP_TOKEN: ${{ env.SEMGREP_APP_TOKEN }}
 
   build-deploy-image:
       needs: call-semgrep-scan
