@@ -17,6 +17,8 @@ spec:
     spec:
       containers:
         - name: webapp
+          securityContext:
+            allowPrivilegeEscalation: false
           image: acrnm01.azurecr.io/webapp:v1
           imagePullPolicy: IfNotPresent
           ports:
