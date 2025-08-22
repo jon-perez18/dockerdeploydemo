@@ -5,7 +5,6 @@ on:
 env:
   ACR_LOGON_SERVER: ${{ secrets.ACR_NAME }}.azurecr.io
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/webapp:${{ github.sha }}
-  APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
 jobs:
 
