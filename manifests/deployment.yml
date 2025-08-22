@@ -19,7 +19,7 @@ spec:
         - name: webapp
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
+            # runAsNonRoot: true
           image: acrnm01.azurecr.io/webapp:v1
           imagePullPolicy: IfNotPresent
           ports:
