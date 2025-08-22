@@ -1,0 +1,43 @@
+name: Unit Test
+
+on:
+  workflow_call:
+
+jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --no-restore
+
+    - name: Run tests and collect results
+      run: |
+        dotnet test --no-build --logger "trx;LogFileName=test_results.trx" --results-directory TestResults
+
+    - name: Check test pass percentage
+      run: |
+        passed=$(grep -oP 'passed="\K[0-9]+' TestResults/test_results.trx)
+        failed=$(grep -oP 'failed="\K[0-9]+' TestResults/test_results.trx)
+        total=$((passed + failed))
+        if [ "$total" -eq 0 ]; then
+          echo "No tests found."
+          exit 1
+        fi
+        pass_rate=$((100 * passed / total))
+        echo "Passed: $passed, Failed: $failed, Pass rate: $pass_rate%"
+        if [ "$pass_rate" -lt 80 ]; then
+          echo "Test pass rate below threshold (80%). Failing workflow."
+          exit 1
+        fi
