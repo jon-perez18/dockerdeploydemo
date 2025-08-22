@@ -14,6 +14,8 @@ jobs:
   call-semgrep-scan:
     needs: call-trufflehog-scan
     uses: ./.github/workflows/semgrep.yml
+    secrets:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
   build-deploy-image:
       needs: call-semgrep-scan
