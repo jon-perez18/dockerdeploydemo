@@ -18,5 +18,5 @@ jobs:
 
       - name: Run Semgrep with local rules
         run: |
-          export SEMGREP_SEND_METRICS=false
+          export SEMGREP_SEND_METRICS=off
           semgrep --config ./semgrep-rules/ --disable-nosem --error
